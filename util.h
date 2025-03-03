@@ -2,6 +2,9 @@
 #define UTIL_H_
 
 #include <array>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <vector>
 
 namespace Util
@@ -33,6 +36,35 @@ namespace Util
 
         return result;
     }
+}
+
+// Function to write the results to a CSV file
+void writeSolutionToCsv(const std::vector<std::vector<float>>& solution, const std::string& filename)
+{
+    std::ofstream file(filename);
+    if (!file.is_open())
+    {
+        std::cerr << "Error opening file for writing!" << std::endl;
+        return;
+    }
+
+    // Write the header
+    file << "Time,Angular Position,Angular Velocity,Angular Acceleration,Lift,Drag,Torque\n";
+
+    // Write the data (transpose the data from solution)
+    for (size_t t = 0; t < solution[0].size(); ++t)
+    {
+        file << solution[0][t] << "," // Time
+             << solution[1][t] << "," // Angular Position
+             << solution[2][t] << "," // Angular Velocity
+             << solution[3][t] << "," // Angular Acceleration
+             << solution[4][t] << "," // Lift
+             << solution[5][t] << "," // Drag (not calculated yet, if needed)
+             << solution[6][t] << "\n"; // Torque
+    }
+
+    file.close();
+    std::cout << "Data written to " << filename << std::endl;
 }
 
 #endif // UTIL_H_

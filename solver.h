@@ -3,8 +3,6 @@
 
 #include <vector>
 #include <iostream>
-#include <immintrin.h>
-#include <memory>
 
 #include "system_parameters.h"
 #include "vec3.h"
@@ -30,12 +28,14 @@ namespace Solver
         solution[0] = Util::linspace<float>(0,  SystemParameters::SimTime, TimeSteps);
 
         // Solve
-        float torque, phi, tangentialLocalVelocity, dynamicPressure, sectionDrag;
+        float torque, lift, phi, tangentialLocalVelocity, dynamicPressure, sectionDrag, reynolds;
         float k1, k2, k3, k4;
         Vec3 omega, phiHat, rHat, radius, circularVeclocity, localVelcoity;
+
         for (int t = 0; t < solution[0].size() - 1; ++t)
         {
             torque = 0.0f;
+            lift = 0.0f;
             omega = {0,0,solution[2][t]};
 
             for(const float& bladeAngle : BladeAngles)
@@ -53,15 +53,18 @@ namespace Solver
                     
                     tangentialLocalVelocity = dot(localVelcoity, phiHat);
                     dynamicPressure = 0.5f * SystemParameters::AirDensity * std::pow(tangentialLocalVelocity, 2);
-                    
+                    reynolds = (tangentialLocalVelocity * SystemParameters::bladeChordAt(r)) / SystemParameters::KinematicViscosity;
+
                     if(tangentialLocalVelocity > 0)
                     {
-                        sectionDrag = dynamicPressure * SystemParameters::bladeChordAt(r) * SystemParameters::RadialStep * SystemParameters::dragCoefficientAt(r);
+                        sectionDrag = dynamicPressure * SystemParameters::bladeChordAt(r) * SystemParameters::RadialStep * SystemParameters::dragCoefficientAt(r, reynolds);
+                        lift += dynamicPressure * SystemParameters::bladeChordAt(r) * SystemParameters::RadialStep * SystemParameters::liftCoefficientAt(r, reynolds);
                         torque += sectionDrag * r;
                     }
                     else 
                     {
-                        sectionDrag = dynamicPressure * SystemParameters::bladeChordAt(r) * SystemParameters::RadialStep * SystemParameters::reverseDragCoefficientAt(r);
+                        sectionDrag = dynamicPressure * SystemParameters::bladeChordAt(r) * SystemParameters::RadialStep * SystemParameters::reverseDragCoefficientAt(r, reynolds);
+                        lift += dynamicPressure * SystemParameters::bladeChordAt(r) * SystemParameters::RadialStep * SystemParameters::reverseLiftCoefficientAt(r, reynolds);
                         torque -= sectionDrag * r;
                     }
                 }
@@ -71,6 +74,8 @@ namespace Solver
 
             solution[3][t] = torque / (SystemParameters::PropellerMomentOfInertia + SystemParameters::MotorRotorMomentOfInertia);
             
+            solution[4][t] = lift; //even when i explicityly set it?
+
             // RK4 Integration
             #define dt SystemParameters::TimeStep
 
@@ -89,9 +94,12 @@ namespace Solver
             solution[2][t+1] = solution[2][t] + ((dt / 6) * (k1 + 2*k2 + 2*k3 + k4));
         }
         std::cout << "Complete" << std::endl;
-        std::cout << solution[2][solution[0].size()-1] << std::endl;
+        std::cout << "Steady State Omega: " << solution[2][solution[0].size()-1] << std::endl;
+        std::cout << "Steady State Lift: " << solution[4][solution[0].size()-2] << std::endl;
+
+        writeSolutionToCsv(solution, "solution.csv");
+
     }
 }
-
 
 #endif // _SOLVER_H_

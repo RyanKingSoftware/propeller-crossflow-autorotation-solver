@@ -74,11 +74,10 @@ inline Vec3 cross(const Vec3& a, const Vec3& b) noexcept {
     return Vec3(_mm_sub_ps(c1, c2));  // (a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x)
 }
 
-// Dot product
 inline float dot(const Vec3& a, const Vec3& b) noexcept {
     __m128 result = _mm_mul_ps(a.data, b.data);  // Multiply corresponding elements
-    result = _mm_hadd_ps(result, result);  // Horizontal addition (sum x, y, z)
-    result = _mm_hadd_ps(result, result);  // Sum all 3 components into one
+    result = _mm_add_ps(result, _mm_shuffle_ps(result, result, _MM_SHUFFLE(2, 3, 0, 1)));  // Sum x and y
+    result = _mm_add_ps(result, _mm_shuffle_ps(result, result, _MM_SHUFFLE(1, 0, 3, 2)));  // Sum z
     return _mm_cvtss_f32(result);  // Extract the result (scalar value)
 }
 
