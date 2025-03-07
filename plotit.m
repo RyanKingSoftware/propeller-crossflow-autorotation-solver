@@ -3,16 +3,15 @@ clc
 
 solution = readmatrix("solution.csv");
 
-% Cyclic Loading
-figure(1)
-plot(solution(length(solution) - 200:length(solution) - 1, 1), solution(length(solution) - 200:length(solution) - 1, 5));
-xlabel("Time(s)")
-ylabel("Lift(N)")
-title('Cyclic Lift forces during Propeller Autorotation')
-
 %Angular Velocity
+figure(1)
+plot(solution(1:90000, 1)  ./ 60, abs(solution(1:90000, 3) .* (60 / (2 * pi))))
+xlabel("Time (min)")
+ylabel("Angular Velocity (RPM)")
+title('Angular Velocity vs. Time')
+
 figure(2)
-plot(solution(1:80000, 1), solution(1:80000, 3))
-xlabel("Time(s)")
-ylabel("Angular Velocity (rads/s)")
-title('Angular Velocity Steady State')
+plot(solution(1:90000, 1) ./ 60, solution(1:90000, 5))
+xlabel("Time (min)")
+ylabel("Lift (N)")
+title('Lift vs. Time')

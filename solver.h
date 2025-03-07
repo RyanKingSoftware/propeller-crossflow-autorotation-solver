@@ -27,10 +27,13 @@ namespace Solver
         std::vector<std::vector<float>> solution(7, std::vector<float>(TimeSteps, 0.0f));        
         solution[0] = Util::linspace<float>(0,  SystemParameters::SimTime, TimeSteps);
 
+        // Initial Conditions
+        solution[2][0] = SystemParameters::InitialAngularVelocity;
+
         // Solve
         float torque, lift, phi, tangentialLocalVelocity, dynamicPressure, sectionDrag, reynolds;
         float k1, k2, k3, k4;
-        Vec3 omega, phiHat, rHat, radius, circularVeclocity, localVelcoity;
+        Vec3 omega, phiHat, rHat, radius, circularVeclocity, localVelocity;
 
         for (int t = 0; t < solution[0].size() - 1; ++t)
         {
@@ -41,6 +44,7 @@ namespace Solver
             for(const float& bladeAngle : BladeAngles)
             {
                 phi = bladeAngle + solution[1][t];
+                //std::cout << "Phi: " << bladeAngle << std::endl;
 
                 rHat = {std::cos(phi), std::sin(phi), 0};
                 phiHat = {-rHat[1], rHat[0], 0};                
@@ -48,13 +52,18 @@ namespace Solver
                 for(const float r : RadialDiscretization)
                 {
                     radius = r * rHat;   
-                    circularVeclocity = cross(radius, omega);
-                    localVelcoity = circularVeclocity + SystemParameters::FreestreamVelocity;
+                    //std::cout << "\nRadius: " << radius[0] << " " << radius[1] << " " << radius[2] << std::endl;
+                    //std::cout << "Omega: " << omega[0] << " " << omega[1] << " " << omega[2] << std::endl;
+                    circularVeclocity = cross(omega, radius);
+                    //std::cout << "Circular: " << circularVeclocity[0] << " " << circularVeclocity[1] << " " << circularVeclocity[2] << std::endl;
+                    localVelocity = circularVeclocity + SystemParameters::FreestreamVelocity;
                     
-                    tangentialLocalVelocity = dot(localVelcoity, phiHat);
+                    tangentialLocalVelocity = dot(localVelocity, phiHat);
+                    //std::cout << "Tan Vel: " << tangentialLocalVelocity << std::endl;
                     dynamicPressure = 0.5f * SystemParameters::AirDensity * std::pow(tangentialLocalVelocity, 2);
+                    //std::cout << "q : " << dynamicPressure << std::endl;
                     reynolds = (tangentialLocalVelocity * SystemParameters::bladeChordAt(r)) / SystemParameters::KinematicViscosity;
-
+                    
                     if(tangentialLocalVelocity > 0)
                     {
                         sectionDrag = dynamicPressure * SystemParameters::bladeChordAt(r) * SystemParameters::RadialStep * SystemParameters::dragCoefficientAt(r, reynolds);
@@ -67,6 +76,7 @@ namespace Solver
                         lift += dynamicPressure * SystemParameters::bladeChordAt(r) * SystemParameters::RadialStep * SystemParameters::reverseLiftCoefficientAt(r, reynolds);
                         torque -= sectionDrag * r;
                     }
+                    
                 }
             }
 
@@ -75,6 +85,9 @@ namespace Solver
             solution[3][t] = torque / (SystemParameters::PropellerMomentOfInertia + SystemParameters::MotorRotorMomentOfInertia);
             
             solution[4][t] = lift; //even when i explicityly set it?
+
+            //std::cout << lift << std::endl;
+            //return;
 
             // RK4 Integration
             #define dt SystemParameters::TimeStep

@@ -21,8 +21,8 @@ namespace SystemParameters
     const Vec3 FreestreamVelocity = {100, 0, 0};
     
     // Inital Conditions
-    constexpr float InitialAngularVelocity = 2 * PI; // 60 RPM
-
+    constexpr float InitialAngularVelocity = 0;
+    
     // Motor Parameters
     constexpr float MotorResistance = 0.013;
     constexpr float MotorVelcoityConstant = 105 * (2 * PI / 60);
@@ -33,29 +33,25 @@ namespace SystemParameters
     constexpr float HubRadius = 0.05;
     constexpr float PropellerRadius = 0.5;
     constexpr size_t NumBlades = 4;
-    constexpr float PropellerMomentOfInertia = 100;
+    constexpr float PropellerMomentOfInertia = 10;
 
-    // Define all blade airfoils here.
     constexpr enum class Airfoil
     {
         NACA2412 = 0
     };
 
-    // Returns the chord length at a given radial position.
     constexpr float bladeChordAt(const float& r)
     {
         assert(r >= HubRadius && r <= PropellerRadius);
         return 0.05f;
     }
 
-    // Returns the AoA at a given radial position.
     constexpr float bladeAlphaAt(const float& r)
     {
         assert(r >= HubRadius && r <= PropellerRadius);
         return 0.0872665; // 5 deg
     }
 
-    // Returns the airfoil at a given radial position.
     constexpr Airfoil bladeAirfoilAt(const float& r)
     {
         assert(r >= HubRadius && r <= PropellerRadius);
@@ -67,19 +63,16 @@ namespace SystemParameters
         return 0.005; // ~ Re = 300,000 + 5deg AOA 0.005
     }
 
-    // Airflow from leading edge to trailing edge.
     constexpr float liftCoefficientAt(const float& r, const float& reynolds)
     {
         return 0.75; // Usually at 5deg AOA
     }
 
-    // Airflow from leading edge to trailing edge.
     constexpr float reverseDragCoefficientAt(const float& r, const float& reynolds)
     {
         return 0.03;
     }
 
-    // Airflow from leading edge to trailing edge.
     constexpr float reverseLiftCoefficientAt(const float& r, const float& reynolds)
     {
         
