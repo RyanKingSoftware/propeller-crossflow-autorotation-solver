@@ -18,7 +18,7 @@ namespace SystemParameters
     // Flight Conditions
     constexpr float AirDensity = 1.225;
     constexpr float KinematicViscosity = 0.00001461;
-    const Vec3 FreestreamVelocity = {100, 0, 0};
+    const Vec3 FreestreamVelocity = {50, 0, 0};
     
     // Inital Conditions
     constexpr float InitialAngularVelocity = 0;

@@ -59,8 +59,9 @@ void writeSolutionToCsv(const std::vector<std::vector<float>>& solution, const s
              << solution[2][t] << "," // Angular Velocity
              << solution[3][t] << "," // Angular Acceleration
              << solution[4][t] << "," // Lift
-             << solution[5][t] << "," // Drag (not calculated yet, if needed)
-             << solution[6][t] << "\n"; // Torque
+             << solution[5][t] << "," // Fx
+             << solution[6][t] << "," // Fy
+             << solution[7][t] << "\n"; // Torque
     }
 
     file.close();
