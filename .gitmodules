@@ -1,6 +1,10 @@
-[submodule "imgui"]
-	path = imgui
-	url = https://github.com/ocornut/imgui
+[submodule "glfw"]
+	path = glfw
+	url = https://github.com/glfw/glfw.git
+	branch = 3.3-stable
 [submodule "implot"]
 	path = implot
 	url = https://github.com/epezent/implot
+[submodule "imgui"]
+	path = imgui
+	url = https://github.com/ocornut/imgui
