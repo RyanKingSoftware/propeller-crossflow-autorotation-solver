@@ -113,10 +113,17 @@ namespace Solver
         std::cout << "Steady State Lift: " << solution[4][solution[0].size()-2] << std::endl;
 
         solutionStruct.mutex.lock();
-        solutionStruct.time = std::move(solution[0]);
-        solutionStruct.lift = std::move(solution[4]);
+        solutionStruct.time                 = std::move(solution[0]);
+        solutionStruct.angularPosition      = std::move(solution[1]);
+        solutionStruct.angularVelocity      = std::move(solution[2]);
+        solutionStruct.angularAcceleration  = std::move(solution[3]);
+        solutionStruct.lift                 = std::move(solution[4]);
+        solutionStruct.drag                 = std::move(solution[5]);
+        solutionStruct.sideForce            = std::move(solution[6]);
+        solutionStruct.torque               = std::move(solution[7]);
         solutionStruct.mutex.unlock();
 
+        // Time, angular position, angular velocity, angular acceleration, lift, drag(fx), side force(fy), torque
         //writeSolutionToCsv(solution, "solution.csv");
     }
 }

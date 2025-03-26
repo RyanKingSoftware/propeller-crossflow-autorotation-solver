@@ -86,11 +86,17 @@ void App::renderPlots()
     {
         if(ImPlot::BeginPlot("Angular Position"))
         {
+            ImPlot::SetupAxes(nullptr, nullptr, ImPlotAxisFlags_AutoFit | ImPlotAxisFlags_NoTickLabels, ImPlotAxisFlags_AutoFit);
+            ImPlot::SetNextLineStyle(ImVec4(0.0,1.0,0.0,1.0), 2.0f);
+            ImPlot::PlotLine("Angular Position", m_solution.time.data(), m_solution.angularPosition.data(), m_solution.time.size()-1); 
             ImPlot::EndPlot();
         }
 
         if(ImPlot::BeginPlot("Angular Acceleration"))
         {
+            ImPlot::SetupAxes(nullptr, nullptr, ImPlotAxisFlags_AutoFit | ImPlotAxisFlags_NoTickLabels, ImPlotAxisFlags_AutoFit);
+            ImPlot::SetNextLineStyle(ImVec4(0.0,1.0,0.0,1.0), 2.0f);
+            ImPlot::PlotLine("Angular Acceleration", m_solution.time.data(), m_solution.angularAcceleration.data(), m_solution.time.size()-1); 
             ImPlot::EndPlot();
         }
 
@@ -98,7 +104,7 @@ void App::renderPlots()
         {
             ImPlot::SetupAxes(nullptr, nullptr, ImPlotAxisFlags_AutoFit | ImPlotAxisFlags_NoTickLabels, ImPlotAxisFlags_AutoFit);
             ImPlot::SetNextLineStyle(ImVec4(0.0,1.0,0.0,1.0), 2.0f);
-            ImPlot::PlotLine("Fz", m_solution.time.data(), m_solution.lift.data(), m_solution.time.size()-1); // PlotLine expects x and y data pointers and size
+            ImPlot::PlotLine("Lift", m_solution.time.data(), m_solution.lift.data(), m_solution.time.size()-1); 
             ImPlot::EndPlot();
         }
 
@@ -106,16 +112,25 @@ void App::renderPlots()
 
         if(ImPlot::BeginPlot("Angular Velocity"))
         {
+            ImPlot::SetupAxes(nullptr, nullptr, ImPlotAxisFlags_AutoFit | ImPlotAxisFlags_NoTickLabels, ImPlotAxisFlags_AutoFit);
+            ImPlot::SetNextLineStyle(ImVec4(0.0,1.0,0.0,1.0), 2.0f);
+            ImPlot::PlotLine("Angular Velocity", m_solution.time.data(), m_solution.angularVelocity.data(), m_solution.time.size()-1); 
             ImPlot::EndPlot();
         }
         
         if(ImPlot::BeginPlot("Torque"))
         {
+            ImPlot::SetupAxes(nullptr, nullptr, ImPlotAxisFlags_AutoFit | ImPlotAxisFlags_NoTickLabels, ImPlotAxisFlags_AutoFit);
+            ImPlot::SetNextLineStyle(ImVec4(0.0,1.0,0.0,1.0), 2.0f);
+            ImPlot::PlotLine("Torque", m_solution.time.data(), m_solution.torque.data(), m_solution.time.size()-1); 
             ImPlot::EndPlot();
         }
 
         if(ImPlot::BeginPlot("Drag"))
         {
+            ImPlot::SetupAxes(nullptr, nullptr, ImPlotAxisFlags_AutoFit | ImPlotAxisFlags_NoTickLabels, ImPlotAxisFlags_AutoFit);
+            ImPlot::SetNextLineStyle(ImVec4(0.0,1.0,0.0,1.0), 2.0f);
+            ImPlot::PlotLine("Drag", m_solution.time.data(), m_solution.drag.data(), m_solution.time.size()-1); 
             ImPlot::EndPlot();
         }
     }
