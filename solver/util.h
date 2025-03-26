@@ -1,5 +1,5 @@
-#ifndef UTIL_H_
-#define UTIL_H_
+#ifndef _UTIL_H_
+#define _UTIL_H_
 
 #include <array>
 #include <iostream>
@@ -10,7 +10,7 @@
 namespace Util
 {
     template<typename T, size_t N>
-    constexpr std::array<T, N> linspace(T start, T end)
+    std::array<T, N> linspace(T start, T end)
     {
         std::array<T, N> result;
         T step = (end - start) / (N);
@@ -68,4 +68,4 @@ void writeSolutionToCsv(const std::vector<std::vector<float>>& solution, const s
     std::cout << "Data written to " << filename << std::endl;
 }
 
-#endif // UTIL_H_
+#endif // _UTIL_H_

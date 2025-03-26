@@ -1,5 +1,5 @@
-#ifndef _SOLVER_WINDOW_H_
-#define _SOLVER_WINDOW_H_
+#ifndef _WINDOW_H_
+#define _WINDOW_H_
 
 #include <GLFW/glfw3.h>
 #include <string>
@@ -27,4 +27,4 @@ class Window {
         bool m_shouldClose = false;
 };
 
-#endif // _SOLVER_WINDOW_H_
+#endif // _WINDOW_H_

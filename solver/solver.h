@@ -1,34 +1,37 @@
 #ifndef _SOLVER_H_
 #define _SOLVER_H_
 
+#include <atomic>
+#include <cmath>
 #include <vector>
 #include <iostream>
 
+#include "configuration.h"
 #include "system_parameters.h"
+#include "solution.h"
 #include "vec3.h"
 #include "util.h"
 
 namespace Solver
 {
-    void solve()
+    void solve(const Configuration configuration, Solution& solutionStruct, std::atomic<float>& progress) // Configuration Copy
     {
-        // Blade Angles
-        constexpr std::array<float, SystemParameters::NumBlades> BladeAngles = Util::linspace<float, SystemParameters::NumBlades>(0, 2 * SystemParameters::PI);
+        const std::vector<float> BladeAngles = Util::linspace<float>(0, 2 * M_PI, (size_t)configuration.numBlades);
 
         // Radius Discretization
-        constexpr float BladeLength = SystemParameters::PropellerRadius - SystemParameters::HubRadius;
-        constexpr size_t RadialSteps = BladeLength / SystemParameters::RadialStep;
-        constexpr std::array<float, RadialSteps> RadialDiscretization = Util::linspace<float, RadialSteps>(SystemParameters::HubRadius, SystemParameters::PropellerRadius);
+        const float BladeLength = configuration.propellerRadius - configuration.hubRadius;
+        const size_t RadialSteps = BladeLength / configuration.radialStep;
+        const std::vector<float> RadialDiscretization = Util::linspace<float>(configuration.hubRadius, configuration.propellerRadius, RadialSteps);
 
         // Solution State and Time Discretization
-        constexpr size_t TimeSteps = (SystemParameters::SimTime / SystemParameters::TimeStep);
+        const size_t TimeSteps = (configuration.simTime / configuration.timeStep);
 
         // Time, angular position, angular velocity, angular acceleration, lift, drag(fx), side force(fy), torque
         std::vector<std::vector<float>> solution(8, std::vector<float>(TimeSteps, 0.0f));        
-        solution[0] = Util::linspace<float>(0,  SystemParameters::SimTime, TimeSteps);
+        solution[0] = Util::linspace<float>(0,  configuration.simTime, TimeSteps);
 
         // Initial Conditions
-        solution[2][0] = SystemParameters::InitialAngularVelocity;
+        solution[2][0] = configuration.initialAngularVelocity;
 
         // Solve
         float torque, lift, phi, tangentialLocalVelocity, dynamicPressure, sectionDrag, reynolds, fx, fy;
@@ -37,6 +40,7 @@ namespace Solver
 
         for (int t = 0; t < solution[0].size() - 1; ++t)
         {
+            progress = ((float)t / ((float)solution[0].size() - 1.0f));
             torque = 0.0f;
             lift = 0.0f;
             fx = 0.0f; // drag
@@ -54,24 +58,24 @@ namespace Solver
                 {
                     radius = r * rHat;   
                     circularVeclocity = cross(omega, radius);
-                    localVelocity = circularVeclocity + SystemParameters::FreestreamVelocity;
+                    localVelocity = circularVeclocity + configuration.freestreamVelocity;
                     
                     tangentialLocalVelocity = dot(localVelocity, phiHat);
-                    dynamicPressure = 0.5f * SystemParameters::AirDensity * std::pow(tangentialLocalVelocity, 2);
-                    reynolds = (tangentialLocalVelocity * SystemParameters::bladeChordAt(r)) / SystemParameters::KinematicViscosity;
+                    dynamicPressure = 0.5f * configuration.airDensity * std::pow(tangentialLocalVelocity, 2);
+                    reynolds = (tangentialLocalVelocity * SystemParameters::bladeChordAt(r)) / configuration.kinematicViscosity;
 
                     if(tangentialLocalVelocity > 0)
                     {
-                        sectionDrag = dynamicPressure * SystemParameters::bladeChordAt(r) * SystemParameters::RadialStep * SystemParameters::dragCoefficientAt(r, reynolds);
-                        lift += dynamicPressure * SystemParameters::bladeChordAt(r) * SystemParameters::RadialStep * SystemParameters::liftCoefficientAt(r, reynolds);
+                        sectionDrag = dynamicPressure * SystemParameters::bladeChordAt(r) * configuration.radialStep * SystemParameters::dragCoefficientAt(r, reynolds);
+                        lift += dynamicPressure * SystemParameters::bladeChordAt(r) * configuration.radialStep * SystemParameters::liftCoefficientAt(r, reynolds);
                         torque -= sectionDrag * r;
                         fx += std::sin(phi) * sectionDrag;
                         fy -= std::cos(phi) * sectionDrag;
                     }
                     else // Reversed flow
                     {
-                        sectionDrag = dynamicPressure * SystemParameters::bladeChordAt(r) * SystemParameters::RadialStep * SystemParameters::reverseDragCoefficientAt(r, reynolds);
-                        lift += dynamicPressure * SystemParameters::bladeChordAt(r) * SystemParameters::RadialStep * SystemParameters::reverseLiftCoefficientAt(r, reynolds);
+                        sectionDrag = dynamicPressure * SystemParameters::bladeChordAt(r) * configuration.radialStep * SystemParameters::reverseDragCoefficientAt(r, reynolds);
+                        lift += dynamicPressure * SystemParameters::bladeChordAt(r) * configuration.radialStep * SystemParameters::reverseLiftCoefficientAt(r, reynolds);
                         torque += sectionDrag * r;
                         fx -= std::sin(phi) * sectionDrag;
                         fy += std::cos(phi) * sectionDrag;
@@ -79,16 +83,16 @@ namespace Solver
                 }
             }
 
-            torque -= (solution[2][t] * SystemParameters::MotorTorqueConstant) / (SystemParameters::MotorResistance * SystemParameters::MotorVelcoityConstant);
+            torque -= (solution[2][t] * configuration.motorTorqueConstant) / (configuration.motorResistance * configuration.motorVelcoityConstant);
 
-            solution[3][t] = torque / (SystemParameters::PropellerMomentOfInertia + SystemParameters::MotorRotorMomentOfInertia); // angular acceleration
+            solution[3][t] = torque / (configuration.propellerMomentOfInertia + configuration.motorRotorMomentOfInertia); // angular acceleration
             solution[4][t] = lift; //even when i explicityly set it?
             solution[5][t] = fx;
             solution[6][t] = fy;
             solution[7][t] = torque;
 
             // RK4 Integration
-            #define dt SystemParameters::TimeStep
+            #define dt configuration.timeStep
 
             // RK4 for angular position (solution[1])
             k1 = solution[2][t];
@@ -108,7 +112,12 @@ namespace Solver
         std::cout << "Steady State Omega: " << solution[2][solution[0].size()-1] << std::endl;
         std::cout << "Steady State Lift: " << solution[4][solution[0].size()-2] << std::endl;
 
-        writeSolutionToCsv(solution, "solution.csv");
+        solutionStruct.mutex.lock();
+        solutionStruct.time = std::move(solution[0]);
+        solutionStruct.lift = std::move(solution[4]);
+        solutionStruct.mutex.unlock();
+
+        //writeSolutionToCsv(solution, "solution.csv");
     }
 }
 

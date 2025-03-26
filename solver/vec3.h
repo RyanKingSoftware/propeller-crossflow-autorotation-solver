@@ -1,5 +1,5 @@
-#ifndef VEC3_H_
-#define VEC3_H_
+#ifndef _VEC3_H_
+#define _VEC3_H_
 
 #include <cassert>
 #include <cmath>
@@ -76,4 +76,4 @@ inline float magnitude(const Vec3& vec) noexcept {
     return std::sqrt(dot(vec, vec));
 }
 
-#endif // VEC3_H_
+#endif // _VEC3_H_

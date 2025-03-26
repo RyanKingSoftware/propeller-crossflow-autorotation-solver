@@ -3,15 +3,12 @@
 // Date: Febuary 8th, 2025
 
 #include "app.h"
-#include "solver.h"
 #include "vec3.h"
 
 #include <array>
 #include <iostream>
 int main()
 {
-    Solver::solve();
-
     App app;
     app.run();
 

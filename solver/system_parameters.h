@@ -8,33 +8,6 @@
 
 namespace SystemParameters
 {
-    constexpr float PI = 3.1415927f;
-
-    // Simulation Parameters
-    constexpr float SimTime = 3000;
-    constexpr float TimeStep = 0.01;
-    constexpr float RadialStep = 0.01;
-
-    // Flight Conditions
-    constexpr float AirDensity = 1.225;
-    constexpr float KinematicViscosity = 0.00001461;
-    const Vec3 FreestreamVelocity = {50, 0, 0};
-    
-    // Inital Conditions
-    constexpr float InitialAngularVelocity = 0;
-    
-    // Motor Parameters
-    constexpr float MotorResistance = 0.013;
-    constexpr float MotorVelcoityConstant = 105 * (2 * PI / 60);
-    constexpr float MotorTorqueConstant = 0.0909f;
-    constexpr float MotorRotorMomentOfInertia = 0.0021865;
-
-    // Propeller / Hub Geometry
-    constexpr float HubRadius = 0.05;
-    constexpr float PropellerRadius = 0.5;
-    constexpr size_t NumBlades = 4;
-    constexpr float PropellerMomentOfInertia = 10;
-
     enum class Airfoil
     {
         NACA2412 = 0

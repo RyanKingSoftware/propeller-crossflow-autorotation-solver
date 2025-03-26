@@ -1,6 +1,11 @@
-#ifndef _SOLVER_APP_H_
-#define _SOLVER_APP_H_
+#ifndef _APP_H_
+#define _APP_H_
 
+#include <atomic>
+#include <future>
+
+#include "configuration.h"
+#include "solution.h"
 #include "window.h"
 
 class App : public Window
@@ -11,6 +16,12 @@ class App : public Window
 
     private:
         void update() final;
+        void renderPlots();
+        Configuration m_configuration = Configuration();
+        Solution m_solution = Solution();
+
+        std::future<void> m_future;
+        std::atomic<float> m_progress = 0;
 };
 
-#endif // _SOLVER_APP_H_
+#endif // _APP_H_
