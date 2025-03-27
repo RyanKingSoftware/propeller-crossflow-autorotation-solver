@@ -30,7 +30,11 @@ struct Solution {
         std::string name;
         ImVec4 color;
 
+        void clean();
+
     private:
+        void downsample(const size_t& windowSize);
+
         static size_t solutionNumber;
 };
 #endif //_SOLUTION_H_

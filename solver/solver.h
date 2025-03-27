@@ -40,7 +40,7 @@ namespace Solver
         float k1, k2, k3, k4;
         Vec3 omega, phiHat, rHat, radius, circularVeclocity, localVelocity;
 
-        for (int t = 0; t < solution.time.size() - 1; ++t)
+        for (int t = 0; t < solution.time.size(); ++t)
         {
             progress = ((float)t / ((float)solution.time.size() - 1.0f));
             omega = {0,0,solution.angularVelocity[t]};
@@ -79,12 +79,14 @@ namespace Solver
                     }
                 }
             }
-
+            
             //solution.torque[t] -= (solution.angularVelocity[t] * configuration.motorTorqueConstant) / (configuration.motorResistance * configuration.motorVelcoityConstant);
             // or?
             solution.torque[t] -= solution.angularVelocity[t] / (configuration.motorVelcoityConstant * configuration.motorVelcoityConstant * configuration.motorResistance);
 
             solution.angularAcceleration[t] = solution.torque[t] / (configuration.propellerMomentOfInertia + configuration.motorRotorMomentOfInertia);
+            
+            if(t+1 == solution.time.size()) break;
 
             // RK4 Integration
             #define dt configuration.timeStep
@@ -104,6 +106,7 @@ namespace Solver
             solution.angularVelocity[t+1] = solution.angularVelocity[t] + ((dt / 6) * (k1 + 2*k2 + 2*k3 + k4));
         }
         solution.configuration = std::move(configuration);
+        solution.clean();
         return solution;
     }
 }

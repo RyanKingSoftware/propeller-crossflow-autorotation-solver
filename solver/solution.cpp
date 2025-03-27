@@ -1,4 +1,5 @@
 #include "solution.h"
+#include "util.h"
 
 size_t Solution::solutionNumber = 0;
 
@@ -27,4 +28,22 @@ Solution::Solution(size_t size) : time(size, 0.0f),
     float b = (std::rand() % 156 + 100) / 255.0f; // Between 100-255
 
     color = ImVec4(r, g, b, 1.0f);
+}
+
+void Solution::clean() {
+    if (time.size() > 1000) {
+        size_t windowSize = time.size() / 1000;
+        downsample(windowSize);
+    }
+}
+
+void Solution::downsample(const size_t& windowSize) {
+    time                = Util::downsampleMinmax(time, windowSize);
+    angularPosition     = Util::downsampleMinmax(angularPosition, windowSize);
+    angularVelocity     = Util::downsampleMinmax(angularVelocity, windowSize);
+    angularAcceleration = Util::downsampleMinmax(angularAcceleration, windowSize);
+    torque              = Util::downsampleMinmax(torque, windowSize);
+    lift                = Util::downsampleMinmax(lift, windowSize);
+    drag                = Util::downsampleMinmax(drag, windowSize);
+    sideForce           = Util::downsampleMinmax(sideForce, windowSize);
 }
