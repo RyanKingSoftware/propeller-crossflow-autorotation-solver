@@ -27,7 +27,6 @@ struct Solution {
         std::vector<float> time, angularPosition, angularVelocity, angularAcceleration, torque, lift, drag, sideForce;
         Configuration configuration;
         std::string name;
-        bool show = false;
         ImVec4 color;
 
     private:

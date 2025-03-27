@@ -47,11 +47,10 @@ class App : public Window
                 if (ImPlot::BeginPlot(plotConfig.title.c_str()))
                 {
                     ImPlot::SetupAxes(plotConfig.xLabel.c_str(), plotConfig.yLabel.c_str(), ImPlotAxisFlags_AutoFit, ImPlotAxisFlags_AutoFit);
-                    for (const auto& solution : m_solutions)
+                    if(m_selectedSolution != -1)
                     {
-                        if (!solution.show) continue;
+                        const Solution& solution = m_solutions[m_selectedSolution];
                         ImPlot::SetNextLineStyle(solution.color, 2.0f);
-                        // Ensure the field function uses const references
                         ImPlot::PlotLine(solution.name.c_str(), solution.time.data(), plotConfig.field(solution).data(), solution.time.size() - 1); 
                     }
                     ImPlot::EndPlot();

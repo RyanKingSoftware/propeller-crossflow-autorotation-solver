@@ -88,14 +88,7 @@ void App::update()
     else if (m_future.valid() && m_future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
     {
         m_solutions.push_back(m_future.get());
-
-        // Switch the shown solution
-        if(m_selectedSolution != -1)
-        {
-            m_solutions[m_selectedSolution].show = false;
-        }
         m_selectedSolution = m_solutions.size() - 1;
-        m_solutions[m_selectedSolution].show = true;
         m_configuration = m_solutions[m_selectedSolution].configuration;
     }
 
@@ -106,8 +99,6 @@ void App::update()
     }
     if(newSelection != m_selectedSolution)
     {
-        m_solutions[m_selectedSolution].show = false;
-        m_solutions[newSelection].show = true;
         m_configuration = m_solutions[newSelection].configuration;
         m_selectedSolution = newSelection;
     }
