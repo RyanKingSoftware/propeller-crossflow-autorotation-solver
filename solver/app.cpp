@@ -45,18 +45,19 @@ void App::update()
     ImGui::InputFloat("Motor Resistance (ohms)", &m_configuration.motorResistance, 0.0F, 0.0F, "%.6f");
     ImGui::InputFloat("Motor Velocity Constant (rad/V)", &m_configuration.motorVelcoityConstant);
     ImGui::InputFloat("Motor Torque Constant (Nm/A)", &m_configuration.motorTorqueConstant, 0.0F, 0.0F, "%.6f");
-    ImGui::InputFloat("Motor Rotor Moment of Inertia (kg*m^2)", &m_configuration.motorRotorMomentOfInertia, 0.0F, 0.0F, "%.6f");
+    ImGui::InputFloat("Motor Rotor Moment of Inertia (kgm^2)", &m_configuration.motorRotorMomentOfInertia, 0.0F, 0.0F, "%.6f");
 
     ImGui::PushFont(io.Fonts->Fonts[1]);
     ImGui::SeparatorText("Propeller and Hub Geometry");
     ImGui::PopFont();
     ImGui::InputFloat("Propeller Radius (m)", &m_configuration.propellerRadius);
     ImGui::InputInt("Number of Blades", &m_configuration.numBlades);
+    ImGui::InputFloat("Propeller Moment of Inertia (kgm^2)", &m_configuration.propellerMomentOfInertia);
     if(m_configuration.numBlades < 2) m_configuration.numBlades = 2;
     ImGui::InputFloat("Hub Radius (m)", &m_configuration.hubRadius);
 
     ImGui::PushFont(io.Fonts->Fonts[1]);
-    ImGui::SeparatorText("Propeller Geometry");
+    ImGui::SeparatorText("Blade Geometry");
     ImGui::PopFont();
     ImGui::Text("TODO");
 
