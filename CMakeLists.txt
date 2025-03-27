@@ -67,3 +67,39 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ${OPENGL_LIBRARIES}
     glfw
 )
+
+if (WIN32)
+    if (CMAKE_BUILD_TYPE STREQUAL "Release" OR "Release" IN_LIST CMAKE_CONFIGURATION_TYPES)
+        #set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE ON)
+    endif()
+endif()
+
+# INSTALL AND CPACK CONFIGURATION
+set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install")
+
+include(InstallRequiredSystemLibraries)
+
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/res/ DESTINATION res)
+
+if(WIN32)
+    install(FILES ${OPENSSL_DLLS} DESTINATION bin)
+endif()
+
+set(WEBSITE "https://github.com/RyanKingSoftware/propeller-crossflow-autorotation-solver")
+set(LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+
+set(CPACK_GENERATOR "ZIP" "NSIS")
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+set(CPACK_PACKAGE_DESCRIPTION "A numerical integrator for computing the transient behavior of propeller autorotation in pure crossflow.")
+set(CPACK_PACKAGE_CONTACT ${WEBSITE})
+set(CPACK_PACKAGE_URL ${WEBSITE})
+set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION}")
+set(CPACK_PACKAGE_VENDOR ${PROJECT_NAME})
+set(CPACK_RESOURCE_FILE_LICENSE  ${LICENSE})
+
+set(CPACK_PACKAGE_DIRECTORY "${CMAKE_SOURCE_DIR}/cpack")
+
+include(CPack)
