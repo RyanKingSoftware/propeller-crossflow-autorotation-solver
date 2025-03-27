@@ -80,7 +80,10 @@ namespace Solver
                 }
             }
 
-            solution.torque[t] -= (solution.angularVelocity[t] * configuration.motorTorqueConstant) / (configuration.motorResistance * configuration.motorVelcoityConstant);
+            //solution.torque[t] -= (solution.angularVelocity[t] * configuration.motorTorqueConstant) / (configuration.motorResistance * configuration.motorVelcoityConstant);
+            // or?
+            solution.torque[t] -= solution.angularVelocity[t] / (configuration.motorVelcoityConstant * configuration.motorVelcoityConstant * configuration.motorResistance);
+
             solution.angularAcceleration[t] = solution.torque[t] / (configuration.propellerMomentOfInertia + configuration.motorRotorMomentOfInertia);
 
             // RK4 Integration

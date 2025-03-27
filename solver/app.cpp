@@ -43,7 +43,7 @@ void App::update()
     ImGui::SeparatorText("Motor Parameters");
     ImGui::PopFont();
     ImGui::InputFloat("Motor Resistance (ohms)", &m_configuration.motorResistance, 0.0F, 0.0F, "%.6f");
-    ImGui::InputFloat("Motor Velocity Constant (rad/V)", &m_configuration.motorVelcoityConstant);
+    ImGui::InputFloat("Motor Velocity Constant (rad/Vs)", &m_configuration.motorVelcoityConstant);
     ImGui::InputFloat("Motor Torque Constant (Nm/A)", &m_configuration.motorTorqueConstant, 0.0F, 0.0F, "%.6f");
     ImGui::InputFloat("Motor Rotor Moment of Inertia (kgm^2)", &m_configuration.motorRotorMomentOfInertia, 0.0F, 0.0F, "%.6f");
 
