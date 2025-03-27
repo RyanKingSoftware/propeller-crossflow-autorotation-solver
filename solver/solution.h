@@ -9,8 +9,9 @@
 
 struct Solution {
     public:
-        Solution() = delete;
-        
+
+        Solution(){}
+
         explicit Solution(size_t size);
 
         // Getters for function pointers in PlotConfiguration
