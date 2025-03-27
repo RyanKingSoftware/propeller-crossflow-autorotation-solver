@@ -1,14 +1,13 @@
 #ifndef _CONFIGURATION_H_
 #define _CONFIGURATION_H_
 
-#include <cmath>
-
+#include "util.h"
 #include "vec3.h"
 
 struct Configuration
 {
     // Simulation Parameters
-    float simTime = 3000;
+    float simTime = 200;
     float timeStep = 0.01;
     float radialStep = 0.01;
 
@@ -22,7 +21,7 @@ struct Configuration
     
     // Motor Parameters
     float motorResistance = 0.013;
-    float motorVelcoityConstant = 105 * (2 * M_PI / 60);
+    float motorVelcoityConstant = 105 * (2 * Util::PI / 60);
     float motorTorqueConstant = 0.0909f;
     float motorRotorMomentOfInertia = 0.0021865;
 

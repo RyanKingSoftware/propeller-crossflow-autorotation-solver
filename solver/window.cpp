@@ -58,6 +58,9 @@ Window::Window(const std::string& windowTitle, const int& width, const int& heig
 
     ImGui_ImplGlfw_InitForOpenGL(m_window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
+
+    io.Fonts->AddFontFromFileTTF("../res/fonts/lato_regular.ttf", 16);
+    io.Fonts->AddFontFromFileTTF("../res/fonts/lato_bold.ttf", 18);
 }
 
 void Window::run()

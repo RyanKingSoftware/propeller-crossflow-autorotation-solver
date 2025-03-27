@@ -5,10 +5,8 @@
 #include <cmath>
 #include <xmmintrin.h>  // SSE intrinsics
 
-// Forward declaration to keep header lean
 struct Vec3;
 
-// Operator declarations (for better organization)
 inline Vec3 operator*(const Vec3& vec, float scalar) noexcept;
 inline Vec3 operator*(float scalar, const Vec3& vec) noexcept;
 inline Vec3 operator/(const Vec3& vec, float scalar) noexcept;

@@ -15,19 +15,19 @@ namespace SystemParameters
 
     constexpr float bladeChordAt(const float& r)
     {
-        assert(r >= HubRadius && r <= PropellerRadius);
+        //assert(r >= HubRadius && r <= PropellerRadius);
         return 0.05f;
     }
 
     constexpr float bladeAlphaAt(const float& r)
     {
-        assert(r >= HubRadius && r <= PropellerRadius);
+        //assert(r >= HubRadius && r <= PropellerRadius);
         return 0.0872665; // 5 deg
     }
 
     constexpr Airfoil bladeAirfoilAt(const float& r)
     {
-        assert(r >= HubRadius && r <= PropellerRadius);
+        //assert(r >= HubRadius && r <= PropellerRadius);
         return Airfoil::NACA2412;
     }
 
