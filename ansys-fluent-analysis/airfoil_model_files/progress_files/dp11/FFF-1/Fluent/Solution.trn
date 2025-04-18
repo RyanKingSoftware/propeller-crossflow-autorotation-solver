@@ -1,0 +1,191 @@
+Transcript Start Time:  07:10:28, 18 Apr 2025 Eastern Daylight Time 
+Current Directory: "C:\Users\ryank"
+
+Build Time: Nov 26 2024 13:23:52 EST 
+Executable Path: C:/PROGRA~1/ANSYSI~1/ANSYSS~1/v251/fluent/ntbin/win64/fluent.exe
+
+----------------------------------------------------------------------------------------
+ID    Hostname         Core  O.S.         PID    Vendor                                
+----------------------------------------------------------------------------------------
+n0*   DESKTOP-QM7ICIE  1/32  Windows-x64  23508  AMD Ryzen 9 3950X 16-Core Processor   
+host  DESKTOP-QM7ICIE        Windows-x64  19908  AMD Ryzen 9 3950X 16-Core Processor   
+
+MPI Option Selected: intel
+Selected system interconnect: default
+----------------------------------------------------------------------------------------
+
+Cortex Process ID: 21248 
+License Server Path: () 
+Multicore SMT processors detected. Processor affinity set!
+Reading setting file in cache: "C:\Users\ryank\Documents\propeller-crossflow-autorotation-solver\ansys-fluent-analysis\airfoil_model_files\dp11\FFF-1\Fluent\FFF-1.1.set"
+Reading "C:\Users\ryank\Documents\propeller-crossflow-autorotation-solver\ansys-fluent-analysis\airfoil_model_files\dp11\FFF-1\MECH\FFF-1.msh"...
+Buffering for file scan...
+
+    7611 nodes, binary.
+     270 nodes, binary.
+   15375 2D interior faces, zone  1, binary.
+      54 2D pressure-outlet faces, zone  5, binary.
+      54 2D velocity-inlet faces, zone  6, binary.
+      28 2D wall faces, zone  7, binary.
+     134 2D wall faces, zone  8, binary.
+    7764 mixed cells, zone  2, binary.
+
+
+
+Following contexts active in the case file have been de-activated because of their current context control conditions:
+"coupled-pseudo-transient"
+
+Building...
+     mesh
+     materials,
+     interface,
+     domains,
+	mixture
+     zones,
+	wall-surface_body
+	airfoil
+	inlet
+	outlet
+	surface_body
+	interior-surface_bodySetting surface_body (mixture) ... Done.
+ Setting zone id of surface_body to 2.
+ Setting zone id of interior-surface_body to 1.
+ Setting zone id of outlet to 6.
+ Setting zone id of inlet to 5.
+ Setting zone id of airfoil to 7.
+ Setting zone id of wall-surface_body to 8.
+Done.
+Setting surface_body (mixture) ... Done.
+Setting interior-surface_body (mixture) ... Done.
+Setting outlet (mixture) ... Done.
+Setting inlet (mixture) ... Done.
+Setting airfoil (mixture) ... Done.
+Setting wall-surface_body (mixture) ... Done.
+
+     parallel,
+Done.
+
+Preparing mesh for display...
+Done.
+
+Setting Post Processing and Surfaces information ...	 Done.
+WB->Fluent:Parameter name:velocity, value:15
+"Updating Setup cell..."
+WB->Fluent:Parameter name:velocity, value:15
+"Updating Solution cell..."
+Reading C:\\Users\\ryank\\Documents\\propeller-crossflow-autorotation-solver\\ansys-fluent-analysis\\airfoil_model_files\\dp11\\FFF-1\\Fluent\\FFF-1.1.ip...
+Reading IP data ...
+	x-coord
+	y-coord
+	pressure
+	x-velocity
+	y-velocity
+	temperature
+	k
+	omega
+  Done.
+  Initializing values...
+  Done.
+WB->Fluent:Parameter name:velocity, value:15
+Fast-loading "C:\PROGRA~1\ANSYSI~1\ANSYSS~1\v251\fluent\fluent25.1.0\\addons\afd\lib\hdfio.bin"
+Done.
+
+Writing to DESKTOP-QM7ICIE:"C:\Users\ryank\Documents\propeller-crossflow-autorotation-solver\ansys-fluent-analysis\airfoil_model_files\dp11\FFF-1\Fluent\FFF-1-Setup-Output.cas.h5" in NODE0 mode and compression level 1 ...
+Grouping cells for Laplace smoothing ...
+        7764 cells,     1 zone  ...
+       15645 faces,     5 zones ...
+        7881 nodes,     1 zone  ...
+  Done.
+Done.
+Overwriting "C:\Users\ryank\Documents\propeller-crossflow-autorotation-solver\ansys-fluent-analysis\airfoil_model_files\dp11\FFF-1\Fluent\.\\cl-rfile.out"  of Report File "cl-rfile"
+Overwriting "C:\Users\ryank\Documents\propeller-crossflow-autorotation-solver\ansys-fluent-analysis\airfoil_model_files\dp11\FFF-1\Fluent\.\\cd-rfile.out"  of Report File "cd-rfile"
+
+  iter  continuity  x-velocity  y-velocity      energy           k       omega          cd     time/iter
+     1  1.0000e+00  6.6309e-04  9.3199e-04  3.6099e-07  1.4260e-02  9.3205e-04  2.1888e-01  0:00:53  999
+     2  8.0709e-01  5.7464e-04  6.2874e-04  4.1435e-07  8.8303e-03  4.4633e-04  2.0257e-01  0:01:04  998
+     3  5.9122e-01  4.2576e-04  4.2827e-04  3.2763e-07  7.0176e-03  2.9965e-04  2.2238e-01  0:01:05  997
+     4  4.5168e-01  3.4061e-04  2.8032e-04  2.4654e-07  7.8722e-03  3.3703e-04  2.2504e-01  0:01:05  996
+     5  3.4862e-01  3.0329e-04  1.9072e-04  2.3273e-07  1.1350e-02  4.5931e-04  2.2319e-01  0:01:06  995
+     6  2.5677e-01  2.9624e-04  1.5655e-04  2.5115e-07  1.7032e-02  5.6876e-04  2.1895e-01  0:01:06  994
+     7  2.1103e-01  3.2535e-04  1.4716e-04  2.7597e-07  2.1527e-02  6.4160e-04  2.1277e-01  0:01:08  993
+     8  1.8310e-01  3.5034e-04  1.5051e-04  2.9917e-07  2.5188e-02  6.6632e-04  2.0441e-01  0:01:10  992
+     9  1.7354e-01  3.5634e-04  1.5423e-04  2.9679e-07  2.7505e-02  6.4835e-04  1.9374e-01  0:01:10  991
+    10  1.5737e-01  3.4312e-04  1.5667e-04  2.7877e-07  2.8734e-02  5.9503e-04  1.8220e-01  0:01:12  990
+    11  1.4279e-01  3.2871e-04  1.4806e-04  2.4293e-07  2.7618e-02  5.3253e-04  1.7245e-01  0:01:12  989
+
+  iter  continuity  x-velocity  y-velocity      energy           k       omega          cd     time/iter
+    12  1.2422e-01  3.0102e-04  1.2947e-04  2.1196e-07  2.6586e-02  4.9511e-04  1.6652e-01  0:01:14  988
+    13  1.0691e-01  2.7279e-04  1.0838e-04  1.9504e-07  2.7051e-02  4.8983e-04  1.6513e-01  0:01:14  987
+    14  9.8634e-02  2.4289e-04  9.0984e-05  1.9110e-07  2.9143e-02  5.0787e-04  1.6724e-01  0:01:14  986
+    15  9.0889e-02  2.2331e-04  7.7427e-05  1.8371e-07  2.7008e-02  4.7193e-04  1.7077e-01  0:01:12  985
+    16  8.1054e-02  2.0562e-04  6.9793e-05  1.6642e-07  2.1021e-02  4.0792e-04  1.7421e-01  0:01:12  984
+    17  7.5038e-02  1.8106e-04  6.2744e-05  1.3910e-07  1.7018e-02  3.3833e-04  1.7659e-01  0:01:10  983
+    18  6.3642e-02  1.5153e-04  5.2963e-05  1.1559e-07  1.4407e-02  3.0011e-04  1.7803e-01  0:01:10  982
+    19  5.3041e-02  1.2789e-04  4.2668e-05  9.5501e-08  1.1967e-02  2.5662e-04  1.7878e-01  0:01:08  981
+    20  4.2435e-02  1.0840e-04  3.4300e-05  8.0065e-08  1.0292e-02  2.2020e-04  1.7884e-01  0:01:09  980
+    21  3.4177e-02  9.0857e-05  2.8437e-05  6.9632e-08  9.0657e-03  2.0100e-04  1.7843e-01  0:02:28  979
+    22  2.8642e-02  7.6705e-05  2.4248e-05  6.0359e-08  8.3775e-03  1.7850e-04  1.7780e-01  0:02:12  978
+
+  iter  continuity  x-velocity  y-velocity      energy           k       omega          cd     time/iter
+    23  2.5149e-02  6.4895e-05  2.2034e-05  5.0511e-08  7.4063e-03  1.5209e-04  1.7715e-01  0:01:58  977
+    24  2.3103e-02  5.4972e-05  1.9574e-05  4.0532e-08  6.4870e-03  1.2579e-04  1.7662e-01  0:01:49  976
+    25  2.0982e-02  4.7755e-05  1.6723e-05  3.2717e-08  5.5988e-03  1.0723e-04  1.7632e-01  0:01:43  975
+    26  1.8706e-02  4.1503e-05  1.3666e-05  2.7821e-08  4.6283e-03  9.2669e-05  1.7626e-01  0:01:37  974
+    27  1.5985e-02  3.5462e-05  1.1232e-05  2.5029e-08  3.6442e-03  8.2320e-05  1.7638e-01  0:01:32  973
+    28  1.3584e-02  3.0152e-05  9.5494e-06  2.2810e-08  3.1411e-03  6.9895e-05  1.7660e-01  0:01:27  972
+    29  1.1474e-02  2.5272e-05  8.5737e-06  2.0231e-08  2.9274e-03  5.8916e-05  1.7683e-01  0:01:22  971
+    30  9.4936e-03  2.1207e-05  7.6794e-06  1.6828e-08  2.6883e-03  4.7797e-05  1.7702e-01  0:01:18  970
+    31  8.1126e-03  1.7853e-05  6.6485e-06  1.3389e-08  2.3686e-03  4.0144e-05  1.7716e-01  0:01:15  969
+    32  6.9485e-03  1.4880e-05  5.5261e-06  1.0672e-08  1.9320e-03  3.4308e-05  1.7723e-01  0:01:14  968
+    33  5.7244e-03  1.2453e-05  4.5262e-06  8.7382e-09  1.5093e-03  2.8465e-05  1.7724e-01  0:01:14  967
+
+  iter  continuity  x-velocity  y-velocity      energy           k       omega          cd     time/iter
+    34  4.6255e-03  1.0299e-05  3.7102e-06  7.5314e-09  1.2348e-03  2.3605e-05  1.7721e-01  0:01:12  966
+    35  3.8012e-03  8.5537e-06  3.0464e-06  6.5874e-09  1.0669e-03  1.9638e-05  1.7716e-01  0:01:11  965
+    36  3.1998e-03  7.2428e-06  2.6104e-06  5.6274e-09  9.2478e-04  1.6125e-05  1.7710e-01  0:01:09  964
+    37  2.7275e-03  6.0418e-06  2.2421e-06  4.5880e-09  8.0302e-04  1.3149e-05  1.7706e-01  0:01:09  963
+    38  2.4164e-03  4.9527e-06  1.8651e-06  3.6236e-09  6.7756e-04  1.0969e-05  1.7704e-01  0:01:07  962
+    39  2.1125e-03  4.0553e-06  1.5229e-06  2.8577e-09  5.3682e-04  9.1236e-06  1.7703e-01  0:01:06  961
+    40  1.7255e-03  3.3351e-06  1.2301e-06  2.3570e-09  4.1491e-04  7.6676e-06  1.7705e-01  0:01:05  960
+    41  1.3772e-03  2.7278e-06  9.8097e-07  2.0100e-09  3.3587e-04  6.4946e-06  1.7706e-01  0:01:04  959
+    42  1.1287e-03  2.2554e-06  8.2690e-07  1.7270e-09  2.8772e-04  5.3173e-06  1.7709e-01  0:01:05  958
+    43  9.3197e-04  1.8979e-06  7.1423e-07  1.4526e-09  2.4806e-04  4.2519e-06  1.7711e-01  0:01:04  957
+!   43 solution is converged
+Registering ReportDefFiles, ("C:\Users\ryank\Documents\propeller-crossflow-autorotation-solver\ansys-fluent-analysis\airfoil_model_files\dp11\FFF-1\Fluent\.\\cd-rfile.out" "C:\Users\ryank\Documents\propeller-crossflow-autorotation-solver\ansys-fluent-analysis\airfoil_model_files\dp11\FFF-1\Fluent\.\\cl-rfile.out")
+Writing "| gzip -2cf > SolutionMonitor.gz"...
+Writing temporary file C:\\Users\\ryank\\AppData\\Local\\Temp\\flntgz-199082 ...
+Done.
+
+Writing data to C:\\Users\\ryank\\Documents\\propeller-crossflow-autorotation-solver\\ansys-fluent-analysis\\airfoil_model_files\\dp11\\FFF-1\\Fluent\\FFF-1.ip ...
+	x-coord
+	y-coord
+	pressure
+	x-velocity
+	y-velocity
+	temperature
+	k
+	omega
+Done.
+
+Performance Timer for 43 iterations on 1 compute node
+  Average wall-clock time per iteration:                0.038 sec
+  Global reductions per iteration:                         93 ops
+  Global reductions time per iteration:                 0.000 sec (0.0%)
+  Message count per iteration:                              9 messages
+  Data transfer per iteration:                          0.000 MB
+  LE solves per iteration:                                  4 solves
+  LE wall-clock time per iteration:                     0.024 sec (62.3%)
+  LE global solves per iteration:                           0 solves
+  LE global wall-clock time per iteration:              0.000 sec (0.0%)
+  LE global matrix maximum size:                            0
+  AMG cycles per iteration:                             7.884 cycles
+  Relaxation sweeps per iteration:                        970 sweeps
+  Relaxation exchanges per iteration:                       0 exchanges
+  LE early protections (stall) per iteration:           0.000 times
+  LE early protections (divergence) per iteration:      0.000 times
+  Total SVARS touched:                                    382
+
+  Total wall-clock time:                                1.644 sec
+
+Transcript Stop Time:  07:10:55, 18 Apr 2025 Eastern Daylight Time 
+Total Transcript Time: 0 Minute 27 Second.

@@ -7,7 +7,6 @@
 #include <iostream>
 
 #include "configuration.h"
-#include "system_parameters.h"
 #include "solution.h"
 #include "vec3.h"
 #include "util.h"
@@ -36,7 +35,7 @@ namespace Solver
         solution.angularVelocity[0] = configuration.initialAngularVelocity;
 
         // Solve
-        float phi, tangentialLocalVelocity, dynamicPressure, sectionDrag, reynolds;
+        float phi, tangentialLocalVelocity, dynamicPressure, sectionDrag, reynolds, hubReynolds;
         float k1, k2, k3, k4;
         Vec3 omega, phiHat, rHat, radius, circularVeclocity, localVelocity;
 
@@ -59,20 +58,20 @@ namespace Solver
                     
                     tangentialLocalVelocity = dot(localVelocity, phiHat);
                     dynamicPressure = 0.5f * configuration.airDensity * std::pow(tangentialLocalVelocity, 2);
-                    reynolds = (tangentialLocalVelocity * SystemParameters::bladeChordAt(r)) / configuration.kinematicViscosity;
+                    reynolds = (tangentialLocalVelocity * configuration.bladeChordAt(r)) / configuration.kinematicViscosity;
 
                     if(tangentialLocalVelocity > 0)
                     {
-                        sectionDrag = dynamicPressure * SystemParameters::bladeChordAt(r) * configuration.radialStep * SystemParameters::dragCoefficientAt(r, reynolds);
-                        solution.lift[t] += dynamicPressure * SystemParameters::bladeChordAt(r) * configuration.radialStep * SystemParameters::liftCoefficientAt(r, reynolds);
+                        sectionDrag = dynamicPressure * configuration.bladeChordAt(r) * configuration.radialStep * configuration.dragCoefficientAt(r, reynolds);
+                        solution.lift[t] += dynamicPressure * configuration.bladeChordAt(r) * configuration.radialStep * configuration.liftCoefficientAt(r, reynolds);
                         solution.torque[t] -= sectionDrag * r;
                         solution.drag[t] -= std::sin(phi) * sectionDrag;
                         solution.sideForce[t] -= std::cos(phi) * sectionDrag;
                     }
                     else // Reversed flow
                     {
-                        sectionDrag = dynamicPressure * SystemParameters::bladeChordAt(r) * configuration.radialStep * SystemParameters::reverseDragCoefficientAt(r, reynolds);
-                        solution.lift[t] += dynamicPressure * SystemParameters::bladeChordAt(r) * configuration.radialStep * SystemParameters::reverseLiftCoefficientAt(r, reynolds);
+                        sectionDrag = dynamicPressure * configuration.bladeChordAt(r) * configuration.radialStep * configuration.reverseDragCoefficientAt(r, reynolds);
+                        solution.lift[t] += dynamicPressure * configuration.bladeChordAt(r) * configuration.radialStep * configuration.reverseLiftCoefficientAt(r, reynolds);
                         solution.torque[t] += sectionDrag * r;
                         solution.drag[t] += std::sin(phi) * sectionDrag;
                         solution.sideForce[t] += std::cos(phi) * sectionDrag;
@@ -80,9 +79,30 @@ namespace Solver
                 }
             }
             
-            //solution.torque[t] -= (solution.angularVelocity[t] * configuration.motorTorqueConstant) / (configuration.motorResistance * configuration.motorVelcoityConstant);
-            // or?
-            solution.torque[t] -= solution.angularVelocity[t] / (configuration.motorVelcoityConstant * configuration.motorVelcoityConstant * configuration.motorResistance);
+            // Hub Drag
+            hubReynolds = (2 * configuration.freestreamVelocity[0] * configuration.hubRadius) / configuration.kinematicViscosity;
+            if (hubReynolds <= 10)
+            {
+                // Cd = 24 / Re
+                solution.drag[t] += (24 / hubReynolds) *  configuration.hubRadius * configuration.airDensity * std::pow(configuration.freestreamVelocity[0], 2) * configuration.hubHieght;
+            } 
+            else if (hubReynolds <= 1000)
+            {
+                // Cd = -0.002Re + 2.42
+                solution.drag[t] += ((-0.002 * hubReynolds) + 2.42) *  configuration.hubRadius * configuration.airDensity * std::pow(configuration.freestreamVelocity[0], 2) * configuration.hubHieght;
+            }
+            else if (hubReynolds <= 300000)
+            {
+                // Cd = 0.5
+                solution.drag[t] += 0.5 * configuration.hubRadius * configuration.airDensity * std::pow(configuration.freestreamVelocity[0], 2) * configuration.hubHieght;
+            }
+            else
+            {
+                // Cd = 0.15
+                solution.drag[t] += 0.15 * configuration.hubRadius * configuration.airDensity * std::pow(configuration.freestreamVelocity[0], 2) * configuration.hubHieght;
+            }
+
+            solution.torque[t] -= solution.angularVelocity[t] / (configuration.motorVelocityConstant * configuration.motorVelocityConstant * configuration.motorResistance);
 
             solution.angularAcceleration[t] = solution.torque[t] / (configuration.propellerMomentOfInertia + configuration.motorRotorMomentOfInertia);
             
