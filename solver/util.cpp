@@ -52,8 +52,7 @@ void Util::writeSolutionToCsv(const Solution& solution)
 
     configFile << "\nMotor Parameters\n";
     configFile << "Motor Resistance: " << solution.configuration.motorResistance << "\n";
-    configFile << "Motor Velocity Constant: " << solution.configuration.motorVelcoityConstant << "\n";
-    configFile << "Motor Torque Constant: " << solution.configuration.motorTorqueConstant << "\n";
+    configFile << "Motor Velocity Constant: " << solution.configuration.motorVelocityConstant << "\n";
     configFile << "Motor Rotor Moment of Inertia: " << solution.configuration.motorRotorMomentOfInertia << "\n";
 
     configFile << "\nPropeller and Hub Geometry\n";

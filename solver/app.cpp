@@ -43,8 +43,7 @@ void App::update()
     ImGui::SeparatorText("Motor Parameters");
     ImGui::PopFont();
     ImGui::InputFloat("Motor Resistance (ohms)", &m_configuration.motorResistance, 0.0F, 0.0F, "%.6f");
-    ImGui::InputFloat("Motor Velocity Constant (rad/Vs)", &m_configuration.motorVelcoityConstant);
-    ImGui::InputFloat("Motor Torque Constant (Nm/A)", &m_configuration.motorTorqueConstant, 0.0F, 0.0F, "%.6f");
+    ImGui::InputFloat("Motor Velocity Constant (rad/Vs)", &m_configuration.motorVelocityConstant);
     ImGui::InputFloat("Motor Rotor Moment of Inertia (kgm^2)", &m_configuration.motorRotorMomentOfInertia, 0.0F, 0.0F, "%.6f");
 
     ImGui::PushFont(io.Fonts->Fonts[1]);
@@ -55,11 +54,42 @@ void App::update()
     ImGui::InputFloat("Propeller Moment of Inertia (kgm^2)", &m_configuration.propellerMomentOfInertia);
     if(m_configuration.numBlades < 2) m_configuration.numBlades = 2;
     ImGui::InputFloat("Hub Radius (m)", &m_configuration.hubRadius);
+    ImGui::InputFloat("Hub Height (m)", &m_configuration.hubHieght);
 
     ImGui::PushFont(io.Fonts->Fonts[1]);
     ImGui::SeparatorText("Blade Geometry");
     ImGui::PopFont();
-    ImGui::Text("TODO");
+
+    const char* airfoilNames[] = { "DAE-51" };
+    int currentAirfoil = static_cast<int>(m_configuration.bladeAirfoil);
+
+    if (ImGui::Combo("Blade Airfoil", &currentAirfoil, airfoilNames, IM_ARRAYSIZE(airfoilNames))) {
+        m_configuration.bladeAirfoil = static_cast<Airfoil>(currentAirfoil);
+    }
+
+    for (int i = 0; i < m_configuration.bladeChord.size(); ++i)
+    {
+        ImGui::PushID(i); // Ensures unique ImGui IDs
+
+        // Label suffix (e.g., "0%", "10%", ..., "100%")
+        std::string suffix = std::to_string(i * 10) + "% Length";
+
+        // Create a table-like row
+        ImGui::Text("Blade %s", suffix.c_str());
+        ImGui::SameLine(150); // Adjust spacing to align inputs
+
+        ImGui::SetNextItemWidth(100);
+        ImGui::InputFloat("Chord (m)", &m_configuration.bladeChord[i], 0.0f, 0.0f, "%.4f");
+        if(m_configuration.bladeChord[i] <= 0) m_configuration.bladeChord[i] = 0.001;
+
+        ImGui::SameLine(350); // Adjust spacing as needed
+        ImGui::SetNextItemWidth(100);
+        ImGui::InputFloat("Pitch (rads)", &m_configuration.bladePitch[i], 0.0f, 0.0f, "%.4f");
+        if(m_configuration.bladePitch[i] < -Util::PI/2) m_configuration.bladePitch[i] = -Util::PI/2;
+        if(m_configuration.bladePitch[i] > Util::PI/2) m_configuration.bladePitch[i] = Util::PI/2;
+        ImGui::PopID();
+    }
+
 
     ImGui::PushFont(io.Fonts->Fonts[1]);
     ImGui::SeparatorText("Solver and Solutions");
