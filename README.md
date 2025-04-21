@@ -4,7 +4,7 @@ The **Propeller Crossflow Autorotation Solver** is an aerodynamic analysis tool 
 
 ## Authors
 
-- [@RyanKingSoftware](https://github.com/RyanKingSoftware) — Desktop Software Developer  
+- [@RyanKingSoftware](https://github.com/RyanKingSoftware) (Desktop Software Developer)
 
 ## Supported Platforms
 
