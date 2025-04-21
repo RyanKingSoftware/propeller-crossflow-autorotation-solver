@@ -53,7 +53,7 @@ We recommend creating a build directory within the project folder and using CMak
   cmake -DCMAKE_BUILD_TYPE=Release ..
   cmake --build . --config Release
 ```
-## Installation and Packaging
+## Installation
 To install the built application, use the following CMake command:
 
 ```bash
