@@ -68,12 +68,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     glfw
 )
 
-if (WIN32)
-    if (CMAKE_BUILD_TYPE STREQUAL "Release" OR "Release" IN_LIST CMAKE_CONFIGURATION_TYPES)
-        #set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE ON)
-    endif()
-endif()
-
 # INSTALL AND CPACK CONFIGURATION
 set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install")
 
