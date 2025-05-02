@@ -1,6 +1,29 @@
 # Propeller Crossflow Autorotation Solver
 
-The **Propeller Crossflow Autorotation Solver** is an aerodynamic analysis tool that determines the transient and steady-state behavior of a propeller in autorotation, given its geometry and initial crossflow conditions.
+Abstract—The design of VTOL aircraft, particularly
+eVTOL aircraft, often relies on the use of multiple electrically
+powered thrust-vectoring propellers to meet the high thrust
+requirements of vertical flight. Many configurations employ aft-
+mounted propellers fixed in a vertical orientation, dedicated
+exclusively to providing extra lift during vertical take-off and
+landing. These propellers, left unpowered at cruise, experience
+crossflow—air moving parallel to the plane of rotation—which
+in turn induces autorotation. Modeling the aerodynamic
+behavior resulting from this crossflow-induced autorotation
+requires a modified mathematical framework—an adaptation of
+blade element theory—formulated specifically for crossflow
+conditions. This report presents the formulation of such a model
+and introduces software developed to solve it numerically,
+which, given propeller geometry and initial crossflow conditions,
+computes both transient and steady-state solutions for the
+propeller’s kinematic and aerodynamic states. These solutions
+inform the design and optimization of propeller systems for
+VTOL and eVTOL aircraft by providing insight into design
+parameters that drive both desired and undesired aerodynamic
+behavior. Notably, they reveal a strong positive correlation
+between blade pitch and cruise drag, suggesting that variable-
+pitch propellers, by leveling the blades at cruise, may offer
+advantages in improving aerodynamic efficiency.
 
 ## Authors
 
