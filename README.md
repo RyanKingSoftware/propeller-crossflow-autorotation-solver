@@ -27,7 +27,7 @@ advantages in improving aerodynamic efficiency.
 
 ## Authors
 
-- [@RyanKingSoftware](https://github.com/RyanKingSoftware) (Desktop Software Developer)
+- [@RyanKingSoftware](https://github.com/RyanKingSoftware)
 
 ## Supported Platforms
 
